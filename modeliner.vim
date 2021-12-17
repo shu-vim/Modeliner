@@ -125,10 +125,14 @@ endfunction
 
 
 function! s:Commentify(s)
+    let commentstring = &commentstring
+    if len(commentstring) == 0
+        let commentstring = '%s'
+    endif
     if exists('g:NERDMapleader') " NERDCommenter
         let result = b:left . ' vim: set' . a:s . ' : ' . b:right
     else
-        let result = substitute(&commentstring, '%s', ' vim: set' . a:s . ' : ', '')
+        let result = substitute(commentstring, '%s', ' vim: set' . a:s . ' : ', '')
     endif
 
     return result
