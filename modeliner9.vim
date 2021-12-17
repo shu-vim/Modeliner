@@ -64,7 +64,7 @@ def s:Modeliner_execute()
     extractedOptStr = substitute(extractedOptStr, '=\S*', '=', 'g')
     extractedOptStr = substitute(extractedOptStr, 'no\(.\+\)', '\1', 'g')
     var opts = sort(split(extractedOptStr))
-    #echom 'opt(list): ' . join(opts, ', ')
+    #echom 'opt(list): ' .. join(opts, ', ')
 
     var optStr = ''
     var prevO = ''
@@ -133,10 +133,14 @@ enddef
 
 def s:Commentify(s: string): string
     var result: string
+	var commentstring = &commentstring
+	if len(commentstring) == 0
+		commentstring = '%s'
+	endif
     if exists('g:NERDMapleader') # NERDCommenter
         result = b:left .. ' vim: set' .. s .. ' : ' .. b:right
     else
-        result = substitute(&commentstring, '%s', ' vim: set' .. s .. ' : ', '')
+        result = substitute(commentstring, '%s', ' vim: set' .. s .. ' : ', '')
     endif
 
     return result
