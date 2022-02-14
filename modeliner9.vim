@@ -43,16 +43,16 @@ command! Modeliner  call <SID>Modeliner_execute()
 
 
 # to retrieve the position
-var s:Modeline_SEARCH_PATTERN = '\svi:\|vim:\|ex:'
+var Modeline_SEARCH_PATTERN = '\svi:\|vim:\|ex:'
 # to extract options from existing modeline
-var s:Modeline_EXTRACT_PATTERN = '\v(.*)\s+(vi|vim|ex):\s*(set?\s+)?(.+)' # very magic
+var Modeline_EXTRACT_PATTERN = '\v(.*)\s+(vi|vim|ex):\s*(set?\s+)?(.+)' # very magic
 # first form
 #let s:Modeline_EXTRACT_OPTPATTERN1 = '\v(.+)' # very magic
 # second form
-var s:Modeline_EXTRACT_OPTPATTERN2 = '\v(.+):(.*)' # very magic
+var Modeline_EXTRACT_OPTPATTERN2 = '\v(.+):(.*)' # very magic
 
 
-def s:Modeliner_execute()
+def Modeliner_execute()
     var options = []
 
     # find existing modeline, and determine the insert position
@@ -131,7 +131,7 @@ def s:Modeliner_execute()
 enddef
 
 
-def s:Commentify(s: string): string
+def Commentify(s: string): string
     var result: string
 	var commentstring = &commentstring
 	if len(commentstring) == 0
@@ -147,7 +147,7 @@ def s:Commentify(s: string): string
 enddef
 
 
-def s:SearchExistingModeline(): dict<any>
+def SearchExistingModeline(): dict<any>
     var info = {'lineNum': 0, 'text': '', 'firstText': '', 'lastText': '', 'optStr': ''}
 
     var candidates = []
@@ -210,7 +210,7 @@ def s:SearchExistingModeline(): dict<any>
 enddef
 
 
-def s:ExtractOptionStringFromModeline(text: string)
+def ExtractOptionStringFromModeline(text: string)
     var info = {}
 
     info.firstText = substitute(text, s:Modeline_EXTRACT_PATTERN, '\1', '')
