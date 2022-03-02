@@ -56,7 +56,7 @@ def Modeliner_execute()
     var options = []
 
     # find existing modeline, and determine the insert position
-    var info = s:SearchExistingModeline()
+    var info = SearchExistingModeline()
 
     # parse g:Modeliner_format and join options with them
     var extractedOptStr = g:Modeliner_format .. ' ' .. info.optStr
@@ -89,7 +89,7 @@ def Modeliner_execute()
 
     var modeline: string
     if info.lineNum == 0
-        modeline = s:Commentify(optStr)
+        modeline = Commentify(optStr)
     else
         modeline = info.firstText .. ' vim: set' .. optStr .. ' :' .. info.lastText
     endif
@@ -170,7 +170,7 @@ def SearchExistingModeline(): dict<any>
         var lineNum = i
         var text = getline(lineNum)
 
-        if match(text, s:Modeline_SEARCH_PATTERN) != -1
+        if match(text, Modeline_SEARCH_PATTERN) != -1
             info.lineNum = lineNum
             info.text = text
             break
@@ -181,22 +181,22 @@ def SearchExistingModeline(): dict<any>
     if info.lineNum != 0
         #echom 'modeline: ' info.lineNum . ' ' . info.text
 
-        info.firstText = substitute(info.text, s:Modeline_EXTRACT_PATTERN, '\1', '')
+        info.firstText = substitute(info.text, Modeline_EXTRACT_PATTERN, '\1', '')
 
-        var isSecondForm = (strlen(substitute(info.text, s:Modeline_EXTRACT_PATTERN, '\3', '')) != 0)
+        var isSecondForm = (strlen(substitute(info.text, Modeline_EXTRACT_PATTERN, '\3', '')) != 0)
         #echom 'form : ' . string(isSecondForm + 1)
         if !isSecondForm
             info.lastText = ''
-            info.optStr = substitute(info.text, s:Modeline_EXTRACT_PATTERN, '\4', '')
+            info.optStr = substitute(info.text, Modeline_EXTRACT_PATTERN, '\4', '')
         else
             info.lastText = substitute(
-                            \ substitute(info.text, s:Modeline_EXTRACT_PATTERN, '\4', ''),
-                            \ s:Modeline_EXTRACT_OPTPATTERN2,
+                            \ substitute(info.text, Modeline_EXTRACT_PATTERN, '\4', ''),
+                            \ Modeline_EXTRACT_OPTPATTERN2,
                             \ '\2',
                             \ '')
             info.optStr = substitute(
-                                \ substitute(info.text, s:Modeline_EXTRACT_PATTERN, '\4', ''),
-                                \ s:Modeline_EXTRACT_OPTPATTERN2,
+                                \ substitute(info.text, Modeline_EXTRACT_PATTERN, '\4', ''),
+                                \ Modeline_EXTRACT_OPTPATTERN2,
                                 \ '\1',
                                 \ '')
         endif
@@ -213,21 +213,21 @@ enddef
 def ExtractOptionStringFromModeline(text: string)
     var info = {}
 
-    info.firstText = substitute(text, s:Modeline_EXTRACT_PATTERN, '\1', '')
+    info.firstText = substitute(text, Modeline_EXTRACT_PATTERN, '\1', '')
 
-    var isSecondForm = (strlen(substitute(text, s:Modeline_EXTRACT_PATTERN, '\3', '') != 0)
+    var isSecondForm = (strlen(substitute(text, Modeline_EXTRACT_PATTERN, '\3', '') != 0)
     if isSecondForm == 0
         info.lastText = ''
-        info.optStr = substitute(text, s:Modeline_EXTRACT_PATTERN, '\2', '')
+        info.optStr = substitute(text, Modeline_EXTRACT_PATTERN, '\2', '')
     else
         info.lastText = substitute(
-                        \ substitute(text, s:Modeline_EXTRACT_PATTERN, '\4', ''),
-                        \ s:Modeline_EXTRACT_OPTPATTERN2,
+                        \ substitute(text, Modeline_EXTRACT_PATTERN, '\4', ''),
+                        \ Modeline_EXTRACT_OPTPATTERN2,
                         \ '\2',
                         \ '')
         info.optStr = substitute(
-                            \ substitute(text, s:Modeline_EXTRACT_PATTERN, '\4', ''),
-                            \ s:Modeline_EXTRACT_OPTPATTERN2,
+                            \ substitute(text, Modeline_EXTRACT_PATTERN, '\4', ''),
+                            \ Modeline_EXTRACT_OPTPATTERN2,
                             \ '\1',
                             \ '')
     endif
